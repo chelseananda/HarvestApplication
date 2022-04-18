@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_baseline_local_florist_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_detail_back_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_filter_list_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_garden_active_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_garden_inactive_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_photo_library_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_plant_list_active_24.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/activity_main.xml" value="0.109375" />
       </map>
     </option>
