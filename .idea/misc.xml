@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/ic_detail_share.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/tab_icon_color_selector.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_baseline_local_florist_24.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_detail_back_24.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_filter_list_24.xml" value="0.1" />
@@ -11,7 +13,20 @@
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_photo_library_24.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_plant_list_active_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_plant_list_inactive_24.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/plant_list_tab_selector.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/activity_garden.xml" value="0.26268115942028986" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/activity_main.xml" value="0.109375" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/fragment_gallery.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/fragment_garden.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/fragment_plant_detail.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/fragment_plant_list.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/fragment_view_pager.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/list_item_garden_planning.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/list_item_photo.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/layout/list_item_plant.xml" value="0.15579710144927536" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/menu/menu_plant_detail.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/menu/menu_plant_list.xml" value="0.26979166666666665" />
       </map>
     </option>
   </component>
