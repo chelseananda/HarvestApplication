@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/ic_detail_share.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/ic_my_garden_active.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/ic_my_garden_inactive.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/ic_plant_list_active.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/ic_plant_list_inactive.xml" value="0.1" />
+        <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/ic_plus.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable-v24/tab_icon_color_selector.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_baseline_local_florist_24.xml" value="0.1" />
         <entry key="..\:/Users/Chelsea Nanda/Desktop/HarvestApplication/app/src/main/res/drawable/ic_detail_back_24.xml" value="0.1" />

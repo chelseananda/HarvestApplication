@@ -174,7 +174,7 @@
             app:isFabGone="@{viewModel.isPlanted}"
             app:layout_anchor="@id/appbar"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@drawable/ic_plus_24" />
+            app:srcCompat="@drawable/ic_plus" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
