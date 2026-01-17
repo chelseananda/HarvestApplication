@@ -7,9 +7,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import sheridan.chelseac.harvestapplication.ui.components.EmptyState
+import sheridan.chelseac.harvestapplication.ui.components.HarvestItem
 import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 
 @Composable
@@ -29,23 +30,25 @@ fun HarvestListScreen(
         }
     ) { padding ->
 
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .padding(padding)
-                .fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .fillMaxSize()
         ) {
-            items(harvests) { harvest ->
-                Card(
-                    modifier = Modifier.fillMaxWidth()
+            if (harvests.isEmpty()) {
+                EmptyState()
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(16.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(harvest.name, style = MaterialTheme.typography.titleMedium)
-                        Text("Quantity: ${harvest.quantity}")
-                        Text("Date: ${harvest.date}")
+                    items(
+                        items = harvests,
+                        key = { it.id }
+                    ) { harvest ->
+                        HarvestItem(
+                            harvest = harvest,
+                            onDelete = { viewModel.deleteHarvest(it) }
+                        )
                     }
                 }
             }

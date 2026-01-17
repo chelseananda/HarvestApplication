@@ -30,4 +30,14 @@ class HarvestViewModel(
             )
         }
     }
+    fun deleteHarvest(harvest: HarvestEntity) {
+        viewModelScope.launch {
+            dao.deleteHarvest(harvest)
+        }
+    }
+    fun clearAll() {
+        viewModelScope.launch {
+            dao.clearAll()
+        }
+    }
 }
