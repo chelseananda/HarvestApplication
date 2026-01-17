@@ -21,8 +21,13 @@ class HarvestRepository(
         harvestDao.insertHarvest(harvest)
     }
 
+    suspend fun delete(harvest: HarvestEntity) {
+        harvestDao.deleteHarvest(harvest)
+    }
+
     // Clear database
     suspend fun clearAll() {
         harvestDao.deleteAll()
     }
+
 }

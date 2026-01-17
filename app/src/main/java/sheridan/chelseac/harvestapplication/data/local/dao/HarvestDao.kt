@@ -14,15 +14,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HarvestDao {
 
-    // Insert a new harvest item
+    @Query("SELECT * FROM harvest ORDER BY harvestDate DESC")
+    fun getAllHarvests(): Flow<List<HarvestEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHarvest(harvest: HarvestEntity)
 
-    // Get all harvest items (reactive)
-    @Query("SELECT * FROM harvest_table ORDER BY id DESC")
-    fun getAllHarvests(): Flow<List<HarvestEntity>>
+    @Delete
+    suspend fun deleteHarvest(harvest: HarvestEntity)
 
-    // Delete all data (for reset/testing)
-    @Query("DELETE FROM harvest_table")
-    suspend fun deleteAll()
+    @Query("DELETE FROM harvest")
+    suspend fun clearAll()
 }

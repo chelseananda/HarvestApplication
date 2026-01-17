@@ -62,4 +62,10 @@ class HarvestViewModel(
             repository.clearAll()
         }
     }
+    fun deleteHarvest(harvest: HarvestEntity) {
+        viewModelScope.launch {
+            repository.delete(harvest)
+        }
+    }
+
 }

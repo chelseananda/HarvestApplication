@@ -35,14 +35,28 @@ fun HarvestScreen(viewModel: HarvestViewModel) {
         ) {
 
             if (uiState.harvestList.isEmpty()) {
-                Text(
-                    text = "No harvest records yet.",
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "No harvest records yet",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = "Tap + to add your first harvest",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             } else {
                 LazyColumn {
                     items(uiState.harvestList) { harvest ->
-                        HarvestItem(harvest)
+                        HarvestItem(
+                            harvest = harvest,
+                            onLongPress = {
+                                viewModel.deleteHarvest(harvest)
+                            }
+                        )
                     }
                 }
             }

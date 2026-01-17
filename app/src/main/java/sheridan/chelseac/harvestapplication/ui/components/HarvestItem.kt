@@ -11,26 +11,21 @@ import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
  * Single harvest item UI
  */
 @Composable
-fun HarvestItem(harvest: HarvestEntity) {
+fun HarvestItem(
+    harvest: HarvestEntity,
+    onLongPress: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        onClick = {},
+        onLongClick = onLongPress
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = harvest.name,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = "Quantity: ${harvest.quantity}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Date: ${harvest.harvestDate}",
-                style = MaterialTheme.typography.bodySmall
-            )
+            Text(harvest.name, style = MaterialTheme.typography.titleMedium)
+            Text("Quantity: ${harvest.quantity}")
+            Text("Date: ${harvest.harvestDate}")
         }
     }
 }
