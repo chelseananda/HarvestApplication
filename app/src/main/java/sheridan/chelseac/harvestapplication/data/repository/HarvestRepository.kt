@@ -15,7 +15,7 @@ import javax.inject.Singleton
  * This class abstracts the data sources (Local/Remote) from the UI layer.
  */
 @Singleton
-class PlantRepository @Inject constructor(
+class HarvestRepository @Inject constructor(
     private val plantDao: PlantDao
 ) {
 

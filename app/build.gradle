@@ -1,79 +1,121 @@
 plugins {
+    // Android application plugin
     id 'com.android.application'
+
+    // Kotlin support
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.dagger.hilt.android'
+
+    //KAPT
+
     id 'com.google.devtools.ksp'
-    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
-    namespace 'sheridan.chelseac.harvestapplication'
-    compileSdk rootProject.compileSdkVersion
+
+    namespace "sheridan.chelseac.harvestapplication"
+
+    compileSdk 34
 
     defaultConfig {
         applicationId "sheridan.chelseac.harvestapplication"
-        minSdk rootProject.minSdkVersion
-        targetSdk rootProject.targetSdkVersion
+
+        minSdk 24
+        targetSdk 34
+
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Enables Jetpack Compose
+    buildFeatures {
+        compose true
+    }
+
+    // Compose compiler version
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.8'
+    }
+
+    // Java compatibility
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // Kotlin JVM target
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
     buildTypes {
         release {
+            // Disables code shrinking for simplicity
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ), 'proguard-rules.pro'
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = '17'
-    }
-
-    buildFeatures {
-        dataBinding true
     }
 }
 
 dependencies {
-    // Core Android & Kotlin
-    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
-    implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
-    implementation "com.google.android.material:material:$rootProject.materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
-    // Architecture Components (Lifecycle, ViewModel, LiveData)
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecycleVersion"
+    /* ---------------------------
+       CORE ANDROID
+       --------------------------- */
 
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
 
-    // Room Database (Persistence)
-    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
-    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
-    ksp "androidx.room:room-compiler:$rootProject.roomVersion"
+    /* ---------------------------
+       ACTIVITY + COMPOSE
+       --------------------------- */
 
-    // Dependency Injection (Hilt)
-    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
-    ksp "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
+    implementation "androidx.activity:activity-compose:1.8.2"
 
-    // Coroutines (Asynchronous Programming)
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutinesVersion"
+    // Compose BOM ensures compatible versions
+    implementation platform("androidx.compose:compose-bom:2024.02.00")
 
-    // Image Loading
-    implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
-    ksp "com.github.bumptech.glide:ksp:$rootProject.glideVersion"
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material3:material3"
+    implementation "androidx.compose.ui:ui-tooling-preview"
 
-    // Testing
+    debugImplementation "androidx.compose.ui:ui-tooling"
+
+    /* ---------------------------
+       NAVIGATION (COMPOSE)
+       --------------------------- */
+
+    implementation "androidx.navigation:navigation-compose:2.7.7"
+
+    /* ---------------------------
+       VIEWMODEL (Compose-friendly)
+       --------------------------- */
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
+
+    /* ---------------------------
+       ROOM DATABASE (Already in your app)
+       --------------------------- */
+
+    implementation "androidx.room:room-runtime:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
+
+    // Required for Room annotations
+    ksp "androidx.room:room-compiler:2.6.1"
+
+    /* ---------------------------
+       COROUTINES (Basic async)
+       --------------------------- */
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+
+    /* ---------------------------
+       TESTING (Optional)
+       --------------------------- */
+
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sheridan.chelseac.harvestapplication.data.local.UserGardenWithDetails
 import sheridan.chelseac.harvestapplication.data.models.UserPlant
-import sheridan.chelseac.harvestapplication.data.repository.PlantRepository
+import sheridan.chelseac.harvestapplication.data.repository.HarvestRepository
 import javax.inject.Inject
 
 /**
@@ -20,7 +20,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class GardenViewModel @Inject constructor(
-    private val repository: PlantRepository
+    private val repository: HarvestRepository
 ) : ViewModel() {
 
     /**

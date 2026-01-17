@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import sheridan.chelseac.harvestapplication.data.models.Plant
-import sheridan.chelseac.harvestapplication.data.repository.PlantRepository
+import sheridan.chelseac.harvestapplication.data.repository.HarvestRepository
 import javax.inject.Inject
 
 /**
@@ -17,7 +17,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
-    private val repository: PlantRepository
+    private val repository: HarvestRepository
 ) : ViewModel() {
 
     init {
