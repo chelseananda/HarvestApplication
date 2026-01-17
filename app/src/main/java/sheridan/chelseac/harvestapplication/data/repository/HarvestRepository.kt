@@ -1,54 +1,28 @@
 package sheridan.chelseac.harvestapplication.data.repository
 
+import sheridan.chelseac.harvestapplication.data.local.dao.HarvestDao
+import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 import kotlinx.coroutines.flow.Flow
-import sheridan.chelseac.harvestapplication.data.local.PlantDao
-import sheridan.chelseac.harvestapplication.data.local.UserGardenWithDetails
-import sheridan.chelseac.harvestapplication.data.models.Plant
-import sheridan.chelseac.harvestapplication.data.models.UserPlant
-import java.time.LocalDateTime
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * Repository module for handling data operations. 
- * Graduate Level Concept: Single Source of Truth (SSOT).
- * This class abstracts the data sources (Local/Remote) from the UI layer.
+ * Repository layer
+ * Acts as single source of truth
  */
-@Singleton
-class HarvestRepository @Inject constructor(
-    private val plantDao: PlantDao
+class HarvestRepository(
+    private val harvestDao: HarvestDao
 ) {
 
-    // --- Botanical Catalog ---
+    // Get all harvest items
+    val allHarvests: Flow<List<HarvestEntity>> =
+        harvestDao.getAllHarvests()
 
-    fun getPlantCatalog(): Flow<List<Plant>> = plantDao.getAllPlants()
-
-    fun getPlant(plantId: String): Flow<Plant> = plantDao.getPlantById(plantId)
-
-    suspend fun populateCatalog(plants: List<Plant>) {
-        plantDao.insertPlants(plants)
+    // Insert a new harvest item
+    suspend fun insert(harvest: HarvestEntity) {
+        harvestDao.insertHarvest(harvest)
     }
 
-    // --- User Garden ---
-
-    fun getMyGarden(): Flow<List<UserGardenWithDetails>> = plantDao.getMyGardenWithDetails()
-
-    suspend fun addPlantToGarden(plantId: String, nickName: String) {
-        val userPlant = UserPlant(
-            plantId = plantId,
-            nickName = nickName,
-            acquisitionDate = LocalDateTime.now(),
-            lastWateredDate = LocalDateTime.now()
-        )
-        plantDao.addToGarden(userPlant)
-    }
-
-    suspend fun removePlantFromGarden(userPlant: UserPlant) {
-        plantDao.removeFromGarden(userPlant)
-    }
-
-    suspend fun waterPlant(userPlant: UserPlant) {
-        val updatedPlant = userPlant.copy(lastWateredDate = LocalDateTime.now())
-        plantDao.updatePlantCare(updatedPlant)
+    // Clear database
+    suspend fun clearAll() {
+        harvestDao.deleteAll()
     }
 }
