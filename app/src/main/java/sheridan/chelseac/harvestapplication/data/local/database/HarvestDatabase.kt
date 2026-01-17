@@ -1,4 +1,4 @@
-package sheridan.chelseac.harvestapplication.data.local
+package sheridan.chelseac.harvestapplication.data.local.database
 
 import android.content.Context
 import androidx.room.Database
@@ -20,7 +20,7 @@ abstract class HarvestDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: HarvestDatabase? = null
 
-        fun getInstance(context: Context): HarvestDatabase {
+        fun getDatabase(context: Context): HarvestDatabase {
             return INSTANCE ?: synchronized(this) {
                 Room.databaseBuilder(
                     context.applicationContext,

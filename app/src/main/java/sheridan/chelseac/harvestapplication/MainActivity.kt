@@ -3,8 +3,9 @@ package sheridan.chelseac.harvestapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import sheridan.chelseac.harvestapplication.di.DatabaseModule
-import sheridan.chelseac.harvestapplication.ui.screens.HarvestScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
+import sheridan.chelseac.harvestapplication.data.local.database.HarvestDatabase
+import sheridan.chelseac.harvestapplication.ui.screens.HarvestListScreen
 import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModelFactory
 
@@ -13,13 +14,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val database = DatabaseModule.provideDatabase(applicationContext)
-        val repository = DatabaseModule.provideRepository(database)
-        val factory = HarvestViewModelFactory(repository)
-        val viewModel = factory.create(HarvestViewModel::class.java)
+        val dao = HarvestDatabase.getDatabase(this).harvestDao()
+        val factory = HarvestViewModelFactory(dao)
 
         setContent {
-            HarvestScreen(viewModel)
+            val viewModel: HarvestViewModel = viewModel(factory = factory)
+            HarvestListScreen(viewModel)
         }
     }
 }
