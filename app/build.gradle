@@ -1,57 +1,42 @@
 plugins {
-    // Android application plugin
     id 'com.android.application'
-
-    // Kotlin support
     id 'org.jetbrains.kotlin.android'
-
-    //KAPT
-
     id 'com.google.devtools.ksp'
 }
 
 android {
 
     namespace "sheridan.chelseac.harvestapplication"
-
     compileSdk 34
 
     defaultConfig {
         applicationId "sheridan.chelseac.harvestapplication"
-
         minSdk 24
         targetSdk 34
-
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // Enables Jetpack Compose
     buildFeatures {
         compose true
     }
 
-    // Compose compiler version
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.8'
     }
 
-    // Java compatibility
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    // Kotlin JVM target
     kotlinOptions {
         jvmTarget = '1.8'
     }
 
     buildTypes {
         release {
-            // Disables code shrinking for simplicity
             minifyEnabled false
             proguardFiles getDefaultProguardFile(
                     'proguard-android-optimize.txt'
@@ -62,59 +47,42 @@ android {
 
 dependencies {
 
-    /* ---------------------------
-       CORE ANDROID
-       --------------------------- */
+    /* ---------------- CORE ---------------- */
 
     implementation "androidx.core:core-ktx:1.12.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
 
-    /* ---------------------------
-       ACTIVITY + COMPOSE
-       --------------------------- */
+    /* ---------------- COMPOSE ---------------- */
 
-    implementation "androidx.activity:activity-compose:1.8.2"
-
-    // Compose BOM ensures compatible versions
     implementation platform("androidx.compose:compose-bom:2024.02.00")
 
+    implementation "androidx.activity:activity-compose:1.8.2"
     implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-text"
     implementation "androidx.compose.material3:material3"
     implementation "androidx.compose.ui:ui-tooling-preview"
 
     debugImplementation "androidx.compose.ui:ui-tooling"
 
-    /* ---------------------------
-       NAVIGATION (COMPOSE)
-       --------------------------- */
-
-    implementation "androidx.navigation:navigation-compose:2.7.7"
-
-    /* ---------------------------
-       VIEWMODEL (Compose-friendly)
-       --------------------------- */
+    /* ---------------- VIEWMODEL ---------------- */
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
 
-    /* ---------------------------
-       ROOM DATABASE (Already in your app)
-       --------------------------- */
+    /* ---------------- NAVIGATION ---------------- */
+
+    implementation "androidx.navigation:navigation-compose:2.7.7"
+
+    /* ---------------- ROOM ---------------- */
 
     implementation "androidx.room:room-runtime:2.6.1"
     implementation "androidx.room:room-ktx:2.6.1"
-
-    // Required for Room annotations
     ksp "androidx.room:room-compiler:2.6.1"
 
-    /* ---------------------------
-       COROUTINES (Basic async)
-       --------------------------- */
+    /* ---------------- COROUTINES ---------------- */
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
-    /* ---------------------------
-       TESTING (Optional)
-       --------------------------- */
+    /* ---------------- TEST ---------------- */
 
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"

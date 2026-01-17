@@ -7,25 +7,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 
-/**
- * Single harvest item UI
- */
 @Composable
 fun HarvestItem(
     harvest: HarvestEntity,
-    onLongPress: () -> Unit
+    onDelete: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        onClick = {},
-        onLongClick = onLongPress
+            .padding(vertical = 4.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(harvest.name, style = MaterialTheme.typography.titleMedium)
-            Text("Quantity: ${harvest.quantity}")
-            Text("Date: ${harvest.harvestDate}")
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(text = harvest.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = "Qty: ${harvest.quantity}")
+                Text(text = harvest.date)
+            }
+            TextButton(onClick = onDelete) {
+                Text("Delete")
+            }
         }
     }
 }

@@ -13,14 +13,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Manual Dependency Injection
         val database = DatabaseModule.provideDatabase(applicationContext)
         val repository = DatabaseModule.provideRepository(database)
-        val viewModelFactory = HarvestViewModelFactory(repository)
-        val viewModel = viewModelFactory.create(HarvestViewModel::class.java)
+        val factory = HarvestViewModelFactory(repository)
+        val viewModel = factory.create(HarvestViewModel::class.java)
 
         setContent {
-            HarvestScreen(viewModel = viewModel)
+            HarvestScreen(viewModel)
         }
     }
 }

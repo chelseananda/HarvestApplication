@@ -7,15 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 import sheridan.chelseac.harvestapplication.ui.components.HarvestItem
+import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 
-/**
- * Main harvest screen
- */
 @Composable
-fun HarvestScreen(viewModel: HarvestViewModel) {
-
+fun HarvestScreen(
+    viewModel: HarvestViewModel
+) {
     val uiState by viewModel.uiState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
 
@@ -25,51 +23,29 @@ fun HarvestScreen(viewModel: HarvestViewModel) {
                 Text("+")
             }
         }
-    ) { paddingValues ->
+    ) { padding ->
 
-        Box(
+        LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+                .padding(padding)
                 .padding(16.dp)
         ) {
-
-            if (uiState.harvestList.isEmpty()) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "No harvest records yet",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Text(
-                        text = "Tap + to add your first harvest",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            } else {
-                LazyColumn {
-                    items(uiState.harvestList) { harvest ->
-                        HarvestItem(
-                            harvest = harvest,
-                            onLongPress = {
-                                viewModel.deleteHarvest(harvest)
-                            }
-                        )
-                    }
-                }
-            }
-
-            if (showDialog) {
-                AddHarvestDialog(
-                    onDismiss = { showDialog = false },
-                    onSave = { name, quantity, date ->
-                        viewModel.addHarvest(name, quantity, date)
-                        showDialog = false
-                    }
+            items(uiState.harvests) { harvest ->
+                HarvestItem(
+                    harvest = harvest,
+                    onDelete = { viewModel.deleteHarvest(harvest) }
                 )
             }
+        }
+
+        if (showDialog) {
+            AddHarvestDialog(
+                onDismiss = { showDialog = false },
+                onSave = { name, quantity, date ->
+                    viewModel.addHarvest(name, quantity, date)
+                    showDialog = false
+                }
+            )
         }
     }
 }

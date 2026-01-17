@@ -17,19 +17,18 @@ abstract class HarvestDatabase : RoomDatabase() {
     abstract fun harvestDao(): HarvestDao
 
     companion object {
-
         @Volatile
         private var INSTANCE: HarvestDatabase? = null
 
         fun getInstance(context: Context): HarvestDatabase {
             return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
+                Room.databaseBuilder(
                     context.applicationContext,
                     HarvestDatabase::class.java,
-                    "harvest_database"
-                ).build()
-                INSTANCE = instance
-                instance
+                    "harvest_db"
+                ).build().also {
+                    INSTANCE = it
+                }
             }
         }
     }

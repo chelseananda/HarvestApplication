@@ -1,13 +1,12 @@
 package sheridan.chelseac.harvestapplication.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-
 
 /**
  * Dialog for adding a new harvest item
@@ -18,22 +17,23 @@ fun AddHarvestDialog(
     onSave: (String, Int, String) -> Unit
 ) {
 
-    // Input states
     var name by remember { mutableStateOf("") }
     var quantity by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
 
-    // Error state
     var showError by remember { mutableStateOf(false) }
+
+    val isQuantityValid = quantity.toIntOrNull() != null
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Add Harvest")
+            Text("Add Harvest")
         },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
                 OutlinedTextField(
@@ -43,8 +43,8 @@ fun AddHarvestDialog(
                         showError = false
                     },
                     label = { Text("Crop Name") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = showError && name.isBlank()
                 )
 
                 OutlinedTextField(
@@ -54,13 +54,12 @@ fun AddHarvestDialog(
                         showError = false
                     },
                     label = { Text("Quantity") },
-                    singleLine = true,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = showError && !isQuantityValid
                 )
-
 
                 OutlinedTextField(
                     value = date,
@@ -68,15 +67,14 @@ fun AddHarvestDialog(
                         date = it
                         showError = false
                     },
-                    label = { Text("Harvest Date") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    label = { Text("Date (YYYY-MM-DD)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = showError && date.isBlank()
                 )
 
-                // Error message
                 if (showError) {
                     Text(
-                        text = "All fields are required",
+                        text = "Please enter valid values in all fields",
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -86,7 +84,12 @@ fun AddHarvestDialog(
         confirmButton = {
             Button(
                 onClick = {
-                    if (name.isBlank() || quantity.isBlank() || date.isBlank()) {
+                    if (
+                        name.isBlank() ||
+                        quantity.isBlank() ||
+                        !isQuantityValid ||
+                        date.isBlank()
+                    ) {
                         showError = true
                     } else {
                         onSave(

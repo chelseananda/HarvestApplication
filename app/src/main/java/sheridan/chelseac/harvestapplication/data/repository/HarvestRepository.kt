@@ -1,33 +1,22 @@
 package sheridan.chelseac.harvestapplication.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import sheridan.chelseac.harvestapplication.data.local.dao.HarvestDao
 import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
-import kotlinx.coroutines.flow.Flow
 
-/**
- * Repository layer
- * Acts as single source of truth
- */
 class HarvestRepository(
     private val harvestDao: HarvestDao
 ) {
 
-    // Get all harvest items
-    val allHarvests: Flow<List<HarvestEntity>> =
+    // Stream of all harvests
+    val harvests: Flow<List<HarvestEntity>> =
         harvestDao.getAllHarvests()
 
-    // Insert a new harvest item
-    suspend fun insert(harvest: HarvestEntity) {
+    suspend fun insertHarvest(harvest: HarvestEntity) {
         harvestDao.insertHarvest(harvest)
     }
 
-    suspend fun delete(harvest: HarvestEntity) {
+    suspend fun deleteHarvest(harvest: HarvestEntity) {
         harvestDao.deleteHarvest(harvest)
     }
-
-    // Clear database
-    suspend fun clearAll() {
-        harvestDao.deleteAll()
-    }
-
 }
