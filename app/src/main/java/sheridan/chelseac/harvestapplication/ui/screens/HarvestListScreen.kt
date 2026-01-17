@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 import sheridan.chelseac.harvestapplication.ui.components.EmptyState
 import sheridan.chelseac.harvestapplication.ui.components.HarvestItem
 import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
@@ -17,29 +18,42 @@ import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 fun HarvestListScreen(
     viewModel: HarvestViewModel
 ) {
+    // Collect harvest list from ViewModel
     val harvests by viewModel.harvests.collectAsState()
-    var showDialog by remember { mutableStateOf(false) }
+
+    // UI state
+    var showAddDialog by remember { mutableStateOf(false) }
+    var selectedHarvest by remember { mutableStateOf<HarvestEntity?>(null) }
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { showDialog = true }
+                onClick = { showAddDialog = true }
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Harvest")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add Harvest"
+                )
             }
         }
-    ) { padding ->
+    ) { paddingValues ->
 
         Box(
             modifier = Modifier
-                .padding(padding)
+                .padding(paddingValues)
                 .fillMaxSize()
         ) {
+
+            // EMPTY STATE
             if (harvests.isEmpty()) {
                 EmptyState()
-            } else {
+            }
+            // LIST STATE
+            else {
                 LazyColumn(
-                    contentPadding = PaddingValues(16.dp)
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(
                         items = harvests,
@@ -47,19 +61,33 @@ fun HarvestListScreen(
                     ) { harvest ->
                         HarvestItem(
                             harvest = harvest,
-                            onDelete = { viewModel.deleteHarvest(it) }
+                            onDelete = { viewModel.deleteHarvest(it) },
+                            onClick = { selectedHarvest = it }
                         )
                     }
                 }
             }
         }
 
-        if (showDialog) {
+        // ADD HARVEST DIALOG
+        if (showAddDialog) {
             AddHarvestDialog(
-                onDismiss = { showDialog = false },
-                onSave = { name, qty, date ->
-                    viewModel.addHarvest(name, qty, date)
-                    showDialog = false
+                onDismiss = { showAddDialog = false },
+                onSave = { name, quantity, date ->
+                    viewModel.addHarvest(name, quantity, date)
+                    showAddDialog = false
+                }
+            )
+        }
+
+        // EDIT HARVEST DIALOG
+        selectedHarvest?.let { harvest ->
+            EditHarvestDialog(
+                harvest = harvest,
+                onDismiss = { selectedHarvest = null },
+                onUpdate = {
+                    viewModel.updateHarvest(it)
+                    selectedHarvest = null
                 }
             )
         }

@@ -40,4 +40,9 @@ class HarvestViewModel(
             dao.clearAll()
         }
     }
+    fun updateHarvest(harvest: HarvestEntity) {
+        viewModelScope.launch {
+            dao.insertHarvest(harvest)
+        }
+    }
 }

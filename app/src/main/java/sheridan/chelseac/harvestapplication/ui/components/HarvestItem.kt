@@ -16,7 +16,8 @@ import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 @Composable
 fun HarvestItem(
     harvest: HarvestEntity,
-    onDelete: (HarvestEntity) -> Unit
+    onDelete: (HarvestEntity) -> Unit,
+    onClick: (HarvestEntity) -> Unit
 ) {
     val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
@@ -48,7 +49,8 @@ fun HarvestItem(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 4.dp)
+                    .padding(vertical = 4.dp),
+                onClick = { onClick(harvest) }
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp)
