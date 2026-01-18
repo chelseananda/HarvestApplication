@@ -1,6 +1,8 @@
 package sheridan.chelseac.harvestapplication.ui.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -16,26 +18,40 @@ import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 @Composable
 fun HarvestItem(
     harvest: HarvestEntity,
-    onDelete: (HarvestEntity) -> Unit,
-    onClick: (HarvestEntity) -> Unit
+    onClick: () -> Unit,
+    onDelete: () -> Unit
 ) {
+
     val dismissState = rememberSwipeToDismissBoxState(
-        confirmValueChange = {
-            if (it == SwipeToDismissBoxValue.EndToStart) {
-                onDelete(harvest)
+        confirmValueChange = { value ->
+            if (value == SwipeToDismissBoxValue.EndToStart) {
+                onDelete()
+                true
+            } else {
+                false
             }
-            true
         }
     )
 
     SwipeToDismissBox(
         state = dismissState,
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = true,
         backgroundContent = {
+
+            val bgColor by animateColorAsState(
+                targetValue = if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart)
+                    MaterialTheme.colorScheme.error
+                else
+                    Color.Transparent,
+                label = "bgColor"
+            )
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Red)
-                    .padding(end = 16.dp),
+                    .background(bgColor)
+                    .padding(end = 20.dp),
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Icon(
@@ -44,22 +60,28 @@ fun HarvestItem(
                     tint = Color.White
                 )
             }
-        },
-        content = {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                onClick = { onClick(harvest) }
+        }
+    ) {
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onClick() },
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
             ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(harvest.name, style = MaterialTheme.typography.titleMedium)
-                    Text("Quantity: ${harvest.quantity}")
-                    Text("Date: ${harvest.date}")
-                }
+                Text(
+                    text = harvest.name,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Quantity: ${harvest.quantity}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
-    )
+    }
 }

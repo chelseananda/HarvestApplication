@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EmptyState() {
+fun EmptyState(
+    message: String
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -19,12 +21,9 @@ fun EmptyState() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = "No harvests yet",
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = "Tap + to add your first harvest",
-                style = MaterialTheme.typography.bodyMedium
+                text = message,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

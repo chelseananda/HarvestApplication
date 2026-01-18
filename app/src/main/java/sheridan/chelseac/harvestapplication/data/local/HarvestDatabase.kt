@@ -1,4 +1,4 @@
-package sheridan.chelseac.harvestapplication.data.local.database
+package sheridan.chelseac.harvestapplication.data.local
 
 import android.content.Context
 import androidx.room.Database

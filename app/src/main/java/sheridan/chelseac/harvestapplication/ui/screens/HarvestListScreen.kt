@@ -3,10 +3,9 @@ package sheridan.chelseac.harvestapplication.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
@@ -18,8 +17,8 @@ import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 fun HarvestListScreen(
     viewModel: HarvestViewModel
 ) {
-    // Collect harvest list from ViewModel
-    val harvests by viewModel.harvests.collectAsState()
+    // Collect data from Room (Flow → State)
+    val harvests by viewModel.harvests.collectAsState(initial = emptyList())
 
     // UI state
     var showAddDialog by remember { mutableStateOf(false) }
@@ -30,66 +29,68 @@ fun HarvestListScreen(
             FloatingActionButton(
                 onClick = { showAddDialog = true }
             ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add Harvest"
-                )
+                Text("+")
             }
         }
     ) { paddingValues ->
 
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
+                .padding(paddingValues)
         ) {
 
             // EMPTY STATE
             if (harvests.isEmpty()) {
-                EmptyState()
+                EmptyState(
+                    message = "No harvests yet.\nTap + to add one."
+                )
             }
             // LIST STATE
             else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(
-                        items = harvests,
-                        key = { it.id }
-                    ) { harvest ->
+                    items(harvests) { harvest ->
                         HarvestItem(
                             harvest = harvest,
-                            onDelete = { viewModel.deleteHarvest(it) },
-                            onClick = { selectedHarvest = it }
+                            onClick = {
+                                selectedHarvest = harvest
+                            },
+                            onDelete = {
+                                viewModel.deleteHarvest(harvest)
+                            }
                         )
                     }
                 }
             }
         }
+    }
 
-        // ADD HARVEST DIALOG
-        if (showAddDialog) {
-            AddHarvestDialog(
-                onDismiss = { showAddDialog = false },
-                onSave = { name, quantity, date ->
-                    viewModel.addHarvest(name, quantity, date)
-                    showAddDialog = false
-                }
-            )
-        }
+    /* ---------------- ADD DIALOG ---------------- */
 
-        // EDIT HARVEST DIALOG
-        selectedHarvest?.let { harvest ->
-            EditHarvestDialog(
-                harvest = harvest,
-                onDismiss = { selectedHarvest = null },
-                onUpdate = {
-                    viewModel.updateHarvest(it)
-                    selectedHarvest = null
-                }
-            )
-        }
+    if (showAddDialog) {
+        AddHarvestDialog(
+            onDismiss = { showAddDialog = false },
+            onSave = { name, quantity, date ->
+                viewModel.addHarvest(name, quantity, date)
+                showAddDialog = false
+            }
+        )
+    }
+
+    /* ---------------- EDIT DIALOG ---------------- */
+
+    selectedHarvest?.let { harvest ->
+        EditHarvestDialog(
+            harvest = harvest,
+            onDismiss = { selectedHarvest = null },
+            onSave = { id, name, quantity, date ->
+                viewModel.updateHarvest(id, name, quantity, date)
+                selectedHarvest = null
+            }
+        )
     }
 }

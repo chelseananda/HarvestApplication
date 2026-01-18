@@ -5,18 +5,21 @@ import sheridan.chelseac.harvestapplication.data.local.dao.HarvestDao
 import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 
 class HarvestRepository(
-    private val harvestDao: HarvestDao
+    private val dao: HarvestDao
 ) {
 
-    // Stream of all harvests
-    val harvests: Flow<List<HarvestEntity>> =
-        harvestDao.getAllHarvests()
+    fun getAllHarvests(): Flow<List<HarvestEntity>> =
+        dao.getAllHarvests()
 
-    suspend fun insertHarvest(harvest: HarvestEntity) {
-        harvestDao.insertHarvest(harvest)
-    }
+    suspend fun insertHarvest(harvest: HarvestEntity) =
+        dao.insertHarvest(harvest)
 
-    suspend fun deleteHarvest(harvest: HarvestEntity) {
-        harvestDao.deleteHarvest(harvest)
-    }
+    suspend fun updateHarvest(harvest: HarvestEntity) =
+        dao.updateHarvest(harvest)
+
+    suspend fun deleteHarvest(harvest: HarvestEntity) =
+        dao.deleteHarvest(harvest)
+
+    suspend fun clearAll() =
+        dao.clearAll()
 }

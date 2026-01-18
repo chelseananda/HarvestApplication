@@ -12,6 +12,7 @@ class HarvestViewModel(
     private val dao: HarvestDao
 ) : ViewModel() {
 
+    // Observe harvest list from Room
     val harvests = dao.getAllHarvests()
         .stateIn(
             scope = viewModelScope,
@@ -19,6 +20,7 @@ class HarvestViewModel(
             initialValue = emptyList()
         )
 
+    // Add new harvest
     fun addHarvest(name: String, quantity: Int, date: String) {
         viewModelScope.launch {
             dao.insertHarvest(
@@ -30,19 +32,25 @@ class HarvestViewModel(
             )
         }
     }
+
+    // Update harvest
+    fun updateHarvest(id: Int, name: String, quantity: Int, date: String) {
+        viewModelScope.launch {
+            dao.insertHarvest(
+                HarvestEntity(
+                    id = id,
+                    name = name,
+                    quantity = quantity,
+                    date = date
+                )
+            )
+        }
+    }
+
+    // Delete harvest
     fun deleteHarvest(harvest: HarvestEntity) {
         viewModelScope.launch {
             dao.deleteHarvest(harvest)
-        }
-    }
-    fun clearAll() {
-        viewModelScope.launch {
-            dao.clearAll()
-        }
-    }
-    fun updateHarvest(harvest: HarvestEntity) {
-        viewModelScope.launch {
-            dao.insertHarvest(harvest)
         }
     }
 }
