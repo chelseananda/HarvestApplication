@@ -1,10 +1,19 @@
 package sheridan.chelseac.harvestapplication.ui.theme
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
-private val LightColors = lightColorScheme()
+private val LightColors = lightColorScheme(
+    primary = DarkGreen,
+    secondary = LightGreen,
+    background = SageGreen,
+    surface = SageGreen,
+    onPrimary = Color.White,
+    onBackground = TextDark,
+    onSurface = TextDark
+
+)
 
 @Composable
 fun HarvestApplicationTheme(
@@ -12,6 +21,7 @@ fun HarvestApplicationTheme(
 ) {
     MaterialTheme(
         colorScheme = LightColors,
+        typography = Typography(),
         content = content
     )
 }
