@@ -1,38 +1,69 @@
 package sheridan.chelseac.harvestapplication.ui.navigation
 
-import androidx.compose.material3.*
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.*
-import sheridan.chelseac.harvestapplication.ui.screens.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import sheridan.chelseac.harvestapplication.ui.screens.CalendarScreen
+import sheridan.chelseac.harvestapplication.ui.screens.GardenScreen
+import sheridan.chelseac.harvestapplication.ui.screens.GuideScreen
+import sheridan.chelseac.harvestapplication.ui.screens.PlantDetailScreen
+import sheridan.chelseac.harvestapplication.ui.screens.PlantScreen
+import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 
 @Composable
-fun AppNavGraph() {
+fun AppNavGraph(
+    viewModel: HarvestViewModel
+) {
+    // Single NavController for the entire app
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
-            BottomBar(navController)
+            BottomNavBar(navController = navController)
         }
-    ) {
-        padding ->
+    ) { padding ->
+
         NavHost(
             navController = navController,
-            startDestination = BottomNavItem.Garden.route
+            startDestination = NavRoutes.GARDEN
         ) {
-            composable(BottomNavItem.Garden.route) {
-                GardenScreen(padding)
+
+            //  Garden tab
+            composable(NavRoutes.GARDEN) {
+                GardenScreen(
+                    padding = padding
+                )
             }
-            composable(BottomNavItem.Plants.route) {
-                PlantScreen(padding)
+
+            //  Plants tab
+            composable(NavRoutes.PLANTS) {
+                PlantScreen(
+                    padding = padding,
+                    navController = navController
+                )
             }
-            composable(BottomNavItem.Calendar.route) {
-                CalenderScreen(padding)
+
+            //  Calendar tab
+            composable(NavRoutes.CALENDAR) {
+                CalendarScreen(
+                    padding = padding
+                )
             }
-            composable(BottomNavItem.Guide.route) {
-                GuideScreen(padding)
+
+            //  Guide tab
+            composable(NavRoutes.GUIDE) {
+                GuideScreen(
+                    padding = padding
+                )
             }
-            composable("plantDetail") {
-                PlantDetailScreen(padding)
+
+            //  Plant detail screen (opened from Plants)
+            composable(NavRoutes.PLANT_DETAIL) {
+                PlantDetailScreen(
+                    padding = padding
+                )
             }
         }
     }
