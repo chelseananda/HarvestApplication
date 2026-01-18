@@ -19,6 +19,7 @@ class HarvestViewModel(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = emptyList()
         )
+    private var recentlyDeletedHarvest : HarvestEntity? = null
 
     // Add new harvest
     fun addHarvest(name: String, quantity: Int, date: String) {
@@ -33,24 +34,19 @@ class HarvestViewModel(
         }
     }
 
-    // Update harvest
-    fun updateHarvest(id: Int, name: String, quantity: Int, date: String) {
+    fun deleteHarvest(harvest: HarvestEntity) {
         viewModelScope.launch {
-            dao.insertHarvest(
-                HarvestEntity(
-                    id = id,
-                    name = name,
-                    quantity = quantity,
-                    date = date
-                )
-            )
+            recentlyDeletedHarvest = harvest
+            dao.deleteHarvest(harvest)
         }
     }
 
-    // Delete harvest
-    fun deleteHarvest(harvest: HarvestEntity) {
-        viewModelScope.launch {
-            dao.deleteHarvest(harvest)
+    fun undoDelete(){
+        recentlyDeletedHarvest?.let {
+            viewModelScope.launch {
+                dao.insertHarvest(it)
+                recentlyDeletedHarvest = null
+            }
         }
     }
 }

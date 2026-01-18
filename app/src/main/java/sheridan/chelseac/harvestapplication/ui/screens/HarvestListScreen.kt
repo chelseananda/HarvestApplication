@@ -1,14 +1,11 @@
 package sheridan.chelseac.harvestapplication.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 import sheridan.chelseac.harvestapplication.ui.components.EmptyState
 import sheridan.chelseac.harvestapplication.ui.components.HarvestItem
 import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
@@ -17,80 +14,59 @@ import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
 fun HarvestListScreen(
     viewModel: HarvestViewModel
 ) {
-    // Collect data from Room (Flow → State)
-    val harvests by viewModel.harvests.collectAsState(initial = emptyList())
+    val harvests by viewModel.harvests.collectAsState()
 
-    // UI state
-    var showAddDialog by remember { mutableStateOf(false) }
-    var selectedHarvest by remember { mutableStateOf<HarvestEntity?>(null) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { showAddDialog = true }
-            ) {
+            FloatingActionButton(onClick = {
+                // handled elsewhere (Add dialog)
+            }) {
                 Text("+")
             }
         }
-    ) { paddingValues ->
+    ) { padding ->
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
+        if (harvests.isEmpty()) {
+            EmptyState(
+                modifier = Modifier.padding(padding)
+            )
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .fillMaxSize()
+            ) {
+                harvests.forEach { harvest ->
 
-            // EMPTY STATE
-            if (harvests.isEmpty()) {
-                EmptyState(
-                    message = "No harvests yet.\nTap + to add one."
-                )
-            }
-            // LIST STATE
-            else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(harvests) { harvest ->
-                        HarvestItem(
-                            harvest = harvest,
-                            onClick = {
-                                selectedHarvest = harvest
-                            },
-                            onDelete = {
-                                viewModel.deleteHarvest(harvest)
+                    HarvestItem(
+                        harvest = harvest,
+                        onClick = { /* optional edit */ },
+                        onDelete = {
+                            viewModel.deleteHarvest(harvest)
+
+                            scope.launch {
+                                val result = snackbarHostState.showSnackbar(
+                                    message = "Harvest deleted",
+                                    actionLabel = "UNDO",
+                                    duration = SnackbarDuration.Short
+                                )
+
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    viewModel.undoDelete()
+                                }
                             }
-                        )
-                    }
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
-    }
-
-    /* ---------------- ADD DIALOG ---------------- */
-
-    if (showAddDialog) {
-        AddHarvestDialog(
-            onDismiss = { showAddDialog = false },
-            onSave = { name, quantity, date ->
-                viewModel.addHarvest(name, quantity, date)
-                showAddDialog = false
-            }
-        )
-    }
-
-    /* ---------------- EDIT DIALOG ---------------- */
-
-    selectedHarvest?.let { harvest ->
-        EditHarvestDialog(
-            harvest = harvest,
-            onDismiss = { selectedHarvest = null },
-            onSave = { id, name, quantity, date ->
-                viewModel.updateHarvest(id, name, quantity, date)
-                selectedHarvest = null
-            }
-        )
     }
 }
