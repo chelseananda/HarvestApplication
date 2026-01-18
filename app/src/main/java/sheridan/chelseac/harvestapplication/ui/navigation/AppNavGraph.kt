@@ -1,24 +1,36 @@
 package sheridan.chelseac.harvestapplication.ui.navigation
 
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import sheridan.chelseac.harvestapplication.ui.screens.HarvestListScreen
-import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
+import androidx.navigation.compose.*
+import sheridan.chelseac.harvestapplication.ui.screens.*
 
 @Composable
-fun AppNavGraph(
-    viewModel: HarvestViewModel
-) {
+fun AppNavGraph() {
     val navController = rememberNavController()
 
-    NavHost(
-        navController = navController,
-        startDestination = "harvest_list"
+    Scaffold(
+        bottomBar = {
+            BottomBar(navController)
+        }
     ) {
-        composable("harvest_list") {
-            HarvestListScreen(viewModel = viewModel)
+        padding ->
+        NavHost(
+            navController = navController,
+            startDestination = BottomNavItem.Garden.route
+        ) {
+            composable(BottomNavItem.Garden.route) {
+                GardenScreen(padding)
+            }
+            composable(BottomNavItem.Plants.route) {
+                PlantScreen(padding)
+            }
+            composable(BottomNavItem.Calendar.route) {
+                CalenderScreen(padding)
+            }
+            composable(BottomNavItem.Guide.route) {
+                GuideScreen(padding)
+            }
         }
     }
 }
