@@ -31,6 +31,9 @@ fun AppNavGraph() {
             composable(BottomNavItem.Guide.route) {
                 GuideScreen(padding)
             }
+            composable("plantDetail") {
+                PlantDetailScreen(padding)
+            }
         }
     }
 }
