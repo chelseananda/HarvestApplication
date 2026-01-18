@@ -9,6 +9,10 @@ class HarvestViewModelFactory(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HarvestViewModel(dao) as T
+        if (modelClass.isAssignableFrom(HarvestViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return HarvestViewModel(dao) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
