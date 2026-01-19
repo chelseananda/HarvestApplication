@@ -2,7 +2,9 @@ package sheridan.chelseac.harvestapplication.ui.card
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -13,19 +15,20 @@ fun InfoCard(
     value: String
 ) {
     Card(
-        modifier = Modifier
-            .width(110.dp)
-            .height(90.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(
-            modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier.padding(12.dp)
         ) {
-            Text(title, style = MaterialTheme.typography.labelMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(value, style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.labelMedium
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }
