@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import sheridan.chelseac.harvestapplication.ui.screens.*
 import sheridan.chelseac.harvestapplication.ui.navigation.BottomNavBar
+import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.PlantViewModel
 
@@ -17,6 +18,7 @@ fun AppNavGraph() {
     val navController = rememberNavController()
     val plantViewModel: PlantViewModel = viewModel()
     val gardenViewModel: GardenViewModel = viewModel()
+    val calendarViewModel: CalendarViewModel = viewModel()
 
     Scaffold(
         bottomBar = {
@@ -37,13 +39,6 @@ fun AppNavGraph() {
                 )
             }
 
-            composable(NavRoutes.GARDEN) {
-                GardenScreen(
-                    padding = padding,
-                    viewModel = gardenViewModel
-                )
-            }
-
             composable(
                 route = "${NavRoutes.PLANT_DETAIL}/{plantId}"
             ) { backStackEntry ->
@@ -61,6 +56,20 @@ fun AppNavGraph() {
                         plant = it
                     )
                 }
+            }
+
+            composable(NavRoutes.GARDEN) {
+                GardenScreen(
+                    padding = padding,
+                    viewModel = gardenViewModel
+                )
+            }
+
+            composable(NavRoutes.CALENDAR) {
+                CalendarScreen(
+                    padding = padding,
+                    viewModel = calendarViewModel
+                )
             }
         }
     }

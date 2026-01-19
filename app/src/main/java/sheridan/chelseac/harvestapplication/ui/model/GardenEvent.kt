@@ -1,6 +1,6 @@
 package sheridan.chelseac.harvestapplication.ui.model
 
-data class Garden(
+data class GardenEvent(
     val id: Int,
     val name: String,
     val type: String
