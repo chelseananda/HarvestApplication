@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import sheridan.chelseac.harvestapplication.ui.screens.*
 import sheridan.chelseac.harvestapplication.ui.navigation.BottomNavBar
+import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.PlantViewModel
 
 @Composable
@@ -15,6 +16,7 @@ fun AppNavGraph() {
 
     val navController = rememberNavController()
     val plantViewModel: PlantViewModel = viewModel()
+    val gardenViewModel: GardenViewModel = viewModel()
 
     Scaffold(
         bottomBar = {
@@ -32,6 +34,13 @@ fun AppNavGraph() {
                     padding = padding,
                     navController = navController,
                     viewModel = plantViewModel
+                )
+            }
+
+            composable(NavRoutes.GARDEN) {
+                GardenScreen(
+                    padding = padding,
+                    viewModel = gardenViewModel
                 )
             }
 

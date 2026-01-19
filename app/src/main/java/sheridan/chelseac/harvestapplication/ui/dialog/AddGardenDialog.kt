@@ -1,4 +1,4 @@
-package sheridan.chelseac.harvestapplication.ui.dialog
+package sheridan.chelseac.harvestapplication.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -6,76 +6,60 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddGardenDialog(
     onDismiss: () -> Unit,
-    onCreate: (String, String) -> Unit
+    onSave: (String, String) -> Unit
 ) {
-    var gardenName by remember { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
-    var selectedType by remember { mutableStateOf("Balcony") }
-
-    val gardenTypes = listOf("Balcony", "Backyard", "Indoor Pots")
+    var name by remember { mutableStateOf("") }
+    var type by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = {
-            Text("Add Garden")
-        },
+        title = { Text("Add Garden") },
         text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 
                 OutlinedTextField(
-                    value = gardenName,
-                    onValueChange = { gardenName = it },
+                    value = name,
+                    onValueChange = {
+                        name = it
+                        showError = false
+                    },
                     label = { Text("Garden Name") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = showError && name.isBlank()
                 )
 
-                // Dropdown for Garden Type
-                ExposedDropdownMenuBox(
-                    expanded = expanded,
-                    onExpandedChange = { expanded = !expanded }
-                ) {
-                    OutlinedTextField(
-                        value = selectedType,
-                        onValueChange = {},
-                        readOnly = true,
-                        label = { Text("Garden Type") },
-                        modifier = Modifier
-                            .menuAnchor()
-                            .fillMaxWidth()
-                    )
+                OutlinedTextField(
+                    value = type,
+                    onValueChange = {
+                        type = it
+                        showError = false
+                    },
+                    label = { Text("Garden Type (Balcony, Backyard)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = showError && type.isBlank()
+                )
 
-                    ExposedDropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        gardenTypes.forEach { type ->
-                            DropdownMenuItem(
-                                text = { Text(type) },
-                                onClick = {
-                                    selectedType = type
-                                    expanded = false
-                                }
-                            )
-                        }
-                    }
+                if (showError) {
+                    Text(
+                        text = "Please fill all fields",
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             }
         },
         confirmButton = {
-            Button(
-                onClick = {
-                    if (gardenName.isNotBlank()) {
-                        onCreate(gardenName, selectedType)
-                    }
+            Button(onClick = {
+                if (name.isBlank() || type.isBlank()) {
+                    showError = true
+                } else {
+                    onSave(name.trim(), type.trim())
                 }
-            ) {
-                Text("Create")
+            }) {
+                Text("Save")
             }
         },
         dismissButton = {

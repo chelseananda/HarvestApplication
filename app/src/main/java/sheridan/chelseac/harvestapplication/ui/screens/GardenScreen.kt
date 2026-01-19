@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sheridan.chelseac.harvestapplication.ui.dialog.AddGardenDialog
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
 
 @Composable
@@ -17,61 +16,67 @@ fun GardenScreen(
     viewModel: GardenViewModel
 ) {
     val gardens by viewModel.gardens.collectAsState()
-    var showAddGardenDialog by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .padding(padding)
+            .fillMaxSize()
     ) {
 
         if (gardens.isEmpty()) {
             Column(
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Gardens",
-                    style = MaterialTheme.typography.headlineLarge
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Text(
-                    text = "You don’t have any garden.\nWant to add some?",
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Text("No gardens yet")
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Tap + to add your first garden")
             }
-        }
-        // ===== LIST STATE =====
-        else {
+        } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(gardens) { garden ->
-                    GardenCard(garden.name, garden.type)
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = MaterialTheme.shapes.medium
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = garden.name,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = garden.type,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
                 }
             }
         }
 
-        // ===== ADD BUTTON =====
-        Button(
-            onClick = { showAddGardenDialog = true },
+        FloatingActionButton(
+            onClick = { showDialog = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(24.dp)
+                .padding(16.dp)
         ) {
-            Text("+ NEW GARDEN")
+            Text("+")
         }
     }
 
-    if (showAddGardenDialog) {
+    if (showDialog) {
         AddGardenDialog(
-            onDismiss = { showAddGardenDialog = false },
-            onCreate = { name, type ->
+            onDismiss = { showDialog = false },
+            onSave = { name, type ->
                 viewModel.addGarden(name, type)
-                showAddGardenDialog = false
+                showDialog = false
             }
         )
     }
