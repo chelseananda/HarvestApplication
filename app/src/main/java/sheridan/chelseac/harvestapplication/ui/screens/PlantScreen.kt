@@ -1,9 +1,9 @@
 package sheridan.chelseac.harvestapplication.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,30 +17,37 @@ fun PlantScreen(
     padding: PaddingValues,
     navController: NavController
 ) {
-
     val plants = listOf(
-        Plant("Tomato", "Full Sun", "2× / week", "60–100 days"),
-        Plant("Carrot", "Partial Sun", "1× / week", "70 days"),
-        Plant("Basil", "Full Sun", "3× / week", "30–45 days"),
-        Plant("Mint", "Partial Sun", "2× / week", "40 days")
+        Plant(1, "Tomato", "Full Sun", "2 in/week", "60–100 days"),
+        Plant(2, "Carrot", "Full Sun", "1 in/week", "70–80 days"),
+        Plant(3, "Basil", "Partial Sun", "1.5 in/week", "30–40 days"),
+        Plant(4, "Lettuce", "Partial Sun", "1 in/week", "45–55 days")
     )
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+    Column(
         modifier = Modifier
             .padding(padding)
-            .padding(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(16.dp)
+            .fillMaxSize()
     ) {
+        Text(
+            text = "Plants",
+            style = MaterialTheme.typography.headlineMedium
+        )
 
-        items(plants) { plant ->
-            PlantCard(
-                plant = plant,
-                onClick = {
-                    navController.navigate(NavRoutes.PLANT_DETAIL)
-                }
-            )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        LazyColumn {
+            items(plants) { plant ->
+                PlantCard(
+                    plant = plant,
+                    onClick = {
+                        navController.navigate(
+                            "${NavRoutes.PLANT_DETAIL}/${plant.id}"
+                        )
+                    }
+                )
+            }
         }
     }
 }

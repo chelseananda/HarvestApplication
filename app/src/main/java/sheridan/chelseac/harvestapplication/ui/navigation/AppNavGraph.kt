@@ -52,7 +52,7 @@ fun AppNavGraph(
                 GuideScreen(padding = padding)
             }
 
-            composable(NavRoutes.PLANT_DETAIL) {
+            composable("${NavRoutes.PLANT_DETAIL}/{plantId}") {
                 PlantDetailScreen(padding = padding)
             }
         }
