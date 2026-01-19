@@ -10,6 +10,7 @@ import sheridan.chelseac.harvestapplication.ui.screens.*
 import sheridan.chelseac.harvestapplication.ui.navigation.BottomNavBar
 import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
+import sheridan.chelseac.harvestapplication.ui.viewmodel.GuideViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.PlantViewModel
 
 @Composable
@@ -19,6 +20,8 @@ fun AppNavGraph() {
     val plantViewModel: PlantViewModel = viewModel()
     val gardenViewModel: GardenViewModel = viewModel()
     val calendarViewModel: CalendarViewModel = viewModel()
+    val guideViewModel: GuideViewModel = viewModel()
+
 
     Scaffold(
         bottomBar = {
@@ -69,6 +72,13 @@ fun AppNavGraph() {
                 CalendarScreen(
                     padding = padding,
                     viewModel = calendarViewModel
+                )
+            }
+
+            composable(NavRoutes.GUIDE){
+                GuideScreen(
+                    padding = padding,
+                    viewModel = guideViewModel
                 )
             }
         }

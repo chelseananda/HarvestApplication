@@ -1,9 +1,8 @@
 package sheridan.chelseac.harvestapplication.ui.model
 
-import androidx.appcompat.widget.DialogTitle
-
-data class GardenEvent(
+data class Guide (
     val id: Int,
     val title: String,
-    val date: String
+    val subtitle: String,
+    val description: String
 )
