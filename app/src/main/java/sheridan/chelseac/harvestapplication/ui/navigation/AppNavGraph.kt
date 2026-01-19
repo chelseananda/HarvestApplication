@@ -7,21 +7,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import sheridan.chelseac.harvestapplication.ui.screens.*
-import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
-import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
+import sheridan.chelseac.harvestapplication.ui.navigation.BottomNavBar
+import sheridan.chelseac.harvestapplication.ui.viewmodel.PlantViewModel
 
 @Composable
-fun AppNavGraph(
-    viewModel: HarvestViewModel
-) {
-    val navController = rememberNavController()
+fun AppNavGraph() {
 
-    //CREATED GardenViewModel HERE
-    val gardenViewModel: GardenViewModel = viewModel()
+    val navController = rememberNavController()
+    val plantViewModel: PlantViewModel = viewModel()
 
     Scaffold(
         bottomBar = {
-            BottomNavBar(navController = navController)
+            BottomNavBar(navController)
         }
     ) { padding ->
 
@@ -30,30 +27,31 @@ fun AppNavGraph(
             startDestination = NavRoutes.GARDEN
         ) {
 
-            composable(NavRoutes.GARDEN) {
-                GardenScreen(
-                    padding = padding,
-                    viewModel = gardenViewModel
-                )
-            }
-
             composable(NavRoutes.PLANTS) {
                 PlantScreen(
                     padding = padding,
-                    navController = navController
+                    navController = navController,
+                    viewModel = plantViewModel
                 )
             }
 
-            composable(NavRoutes.CALENDAR) {
-                CalendarScreen(padding = padding)
-            }
+            composable(
+                route = "${NavRoutes.PLANT_DETAIL}/{plantId}"
+            ) { backStackEntry ->
 
-            composable(NavRoutes.GUIDE) {
-                GuideScreen(padding = padding)
-            }
+                val plantId =
+                    backStackEntry.arguments?.getString("plantId")?.toIntOrNull()
 
-            composable("${NavRoutes.PLANT_DETAIL}/{plantId}") {
-                PlantDetailScreen(padding = padding)
+                val plant = plantId?.let {
+                    plantViewModel.getPlantById(it)
+                }
+
+                plant?.let {
+                    PlantDetailScreen(
+                        padding = padding,
+                        plant = it
+                    )
+                }
             }
         }
     }

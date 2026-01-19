@@ -5,5 +5,6 @@ data class Plant (
     val name: String,
     val sunlight: String,
     val water: String,
-    val daysToHarvest: String
+    val daysToHarvest: String,
+    val description: String
 )

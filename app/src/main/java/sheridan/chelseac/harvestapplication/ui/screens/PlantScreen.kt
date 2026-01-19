@@ -9,35 +9,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import sheridan.chelseac.harvestapplication.ui.components.PlantCard
-import sheridan.chelseac.harvestapplication.ui.model.Plant
 import sheridan.chelseac.harvestapplication.ui.navigation.NavRoutes
+import sheridan.chelseac.harvestapplication.ui.viewmodel.PlantViewModel
 
 @Composable
 fun PlantScreen(
     padding: PaddingValues,
-    navController: NavController
+    navController: NavController,
+    viewModel: PlantViewModel
 ) {
-    val plants = listOf(
-        Plant(1, "Tomato", "Full Sun", "2 in/week", "60–100 days"),
-        Plant(2, "Carrot", "Full Sun", "1 in/week", "70–80 days"),
-        Plant(3, "Basil", "Partial Sun", "1.5 in/week", "30–40 days"),
-        Plant(4, "Lettuce", "Partial Sun", "1 in/week", "45–55 days")
-    )
+    val plants = viewModel.getPlants()
 
     Column(
         modifier = Modifier
             .padding(padding)
-            .padding(16.dp)
             .fillMaxSize()
+            .padding(16.dp)
     ) {
+
         Text(
             text = "Plants",
             style = MaterialTheme.typography.headlineMedium
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(plants) { plant ->
                 PlantCard(
                     plant = plant,
