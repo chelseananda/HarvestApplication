@@ -9,11 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sheridan.chelseac.harvestapplication.ui.model.Garden
+import sheridan.chelseac.harvestapplication.ui.model.Plant
 
 @Composable
-fun GardenCard(
-    garden: Garden,
+fun PlantCard(
+    plant: Plant,
     onClick: () -> Unit
 ) {
     Card(
@@ -26,13 +26,17 @@ fun GardenCard(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = garden.name,
+                text = plant.name,
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = garden.type,
-                style = MaterialTheme.typography.bodyMedium
+                text = "Sunlight: ${plant.sunlight}",
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = "Water: ${plant.water}",
+                style = MaterialTheme.typography.bodySmall
             )
         }
     }

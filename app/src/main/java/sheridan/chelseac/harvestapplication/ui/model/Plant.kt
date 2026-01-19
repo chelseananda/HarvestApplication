@@ -1,5 +1,6 @@
 package sheridan.chelseac.harvestapplication.ui.model
 
+//all plants in the garden
 data class Plant (
     val id: Int,
     val name: String,
