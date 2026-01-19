@@ -1,4 +1,4 @@
-package sheridan.chelseac.harvestapplication.ui.screens
+package sheridan.chelseac.harvestapplication.ui.dialog
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

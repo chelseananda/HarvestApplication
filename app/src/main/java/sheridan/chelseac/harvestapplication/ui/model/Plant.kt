@@ -1,4 +1,4 @@
-package sheridan.chelseac.harvestapplication.ui.screens
+package sheridan.chelseac.harvestapplication.ui.model
 
 data class Plant (
     val name: String,

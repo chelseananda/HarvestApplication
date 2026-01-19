@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import sheridan.chelseac.harvestapplication.ui.components.PlantCard
+import sheridan.chelseac.harvestapplication.ui.model.Plant
 import sheridan.chelseac.harvestapplication.ui.navigation.NavRoutes
 
 @Composable

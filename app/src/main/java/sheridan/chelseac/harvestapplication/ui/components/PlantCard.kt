@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import sheridan.chelseac.harvestapplication.ui.screens.Plant
+import sheridan.chelseac.harvestapplication.ui.model.Plant
 
 @Composable
 fun PlantCard(
