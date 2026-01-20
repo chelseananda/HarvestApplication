@@ -10,7 +10,6 @@ import sheridan.chelseac.harvestapplication.ui.screens.*
 import sheridan.chelseac.harvestapplication.ui.navigation.BottomNavBar
 import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
-import sheridan.chelseac.harvestapplication.ui.viewmodel.GuideViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.PlantViewModel
 
 @Composable
@@ -42,24 +41,15 @@ fun AppNavGraph() {
                 )
             }
 
-            composable(
-                route = "${NavRoutes.PLANT_DETAIL}/{plantId}"
-            ) { backStackEntry ->
+            composable("${NavRoutes.PLANT_DETAIL}/{plantId}") { backStackEntry ->
+                val plantId = backStackEntry.arguments?.getString("plantId")?.toInt() ?: 0
 
-                val plantId =
-                    backStackEntry.arguments?.getString("plantId")?.toIntOrNull()
-
-                val plant = plantId?.let {
-                    plantViewModel.getPlantById(it)
-                }
-
-                plant?.let {
-                    PlantDetailScreen(
-                        padding = padding,
-                        plant = it
-                    )
-                }
+                PlantDetailScreen(
+                    padding = padding,
+                    plantId = plantId
+                )
             }
+
 
             composable(NavRoutes.GARDEN) {
                 GardenScreen(

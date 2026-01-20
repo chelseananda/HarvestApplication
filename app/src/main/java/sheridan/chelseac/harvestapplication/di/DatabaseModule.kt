@@ -1,7 +1,7 @@
 package sheridan.chelseac.harvestapplication.di
 
 import android.content.Context
-import sheridan.chelseac.harvestapplication.data.local.HarvestDatabase
+import sheridan.chelseac.harvestapplication.data.local.entity.HarvestDatabase
 import sheridan.chelseac.harvestapplication.data.repository.HarvestRepository
 
 object DatabaseModule {

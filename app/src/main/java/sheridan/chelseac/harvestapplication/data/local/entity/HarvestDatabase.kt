@@ -1,11 +1,10 @@
-package sheridan.chelseac.harvestapplication.data.local
+package sheridan.chelseac.harvestapplication.data.local.entity
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sheridan.chelseac.harvestapplication.data.local.dao.HarvestDao
-import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
 
 @Database(
     entities = [HarvestEntity::class],

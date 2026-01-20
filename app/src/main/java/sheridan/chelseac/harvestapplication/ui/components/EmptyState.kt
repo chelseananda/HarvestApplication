@@ -10,16 +10,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmptyState(
-    modifier: Modifier = Modifier
+    message: String
 ) {
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "No harvests yet.\nTap + to add one.",
-            style = MaterialTheme.typography.bodyLarge
-        )
+        Text(message)
     }
 }
 

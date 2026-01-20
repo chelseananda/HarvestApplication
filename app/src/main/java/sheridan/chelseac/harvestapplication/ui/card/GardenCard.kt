@@ -1,39 +1,28 @@
+// ui/card/GardenCard.kt
 package sheridan.chelseac.harvestapplication.ui.card
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import sheridan.chelseac.harvestapplication.ui.model.Garden
 
 @Composable
-fun GardenCard(
-    garden: Garden,
-    onClick: () -> Unit
-) {
+fun GardenCard(garden: Garden) {
     Card(
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp)
+            .height(120.dp)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = garden.name,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = garden.type,
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Text(garden.name, style = MaterialTheme.typography.titleMedium)
+            Text(garden.type, style = MaterialTheme.typography.bodySmall)
         }
     }
 }

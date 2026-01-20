@@ -1,15 +1,32 @@
 package sheridan.chelseac.harvestapplication.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import sheridan.chelseac.harvestapplication.ui.model.GardenEvent
 
 class CalendarViewModel : ViewModel() {
 
-    private val events = listOf(
-        GardenEvent(1, "Water Tomatoes", "Jan 20"),
-        GardenEvent(2, "Fertilize Basil", "Jan 23"),
-        GardenEvent(3, "Harvest Carrots", "Jan 28")
-    )
+    private val _events = MutableStateFlow<List<GardenEvent>>(emptyList())
+    val events: StateFlow<List<GardenEvent>> = _events
 
-    fun getEvents(): List<GardenEvent> = events
+    private var nextId = 1
+
+    fun addEvent(
+        title: String,
+        date: String,
+        gardenName: String
+    ) {
+        val event = GardenEvent(
+            id = nextId++,
+            title = title,
+            date = date,
+            gardenName = gardenName
+        )
+        _events.value = _events.value + event
+    }
+
+    fun deleteEvent(event: GardenEvent) {
+        _events.value = _events.value - event
+    }
 }

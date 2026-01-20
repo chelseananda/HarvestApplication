@@ -4,5 +4,6 @@ package sheridan.chelseac.harvestapplication.ui.model
 data class Guide (
     val id: Int,
     val title: String,
-    val description: String
+    val description: String,
+    val category: String
 )
