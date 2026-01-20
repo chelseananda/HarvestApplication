@@ -7,10 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import sheridan.chelseac.harvestapplication.ui.card.GuideCard
 import sheridan.chelseac.harvestapplication.ui.model.Guide
+import sheridan.chelseac.harvestapplication.ui.viewmodel.GuideViewModel
 
 @Composable
 fun GuideScreen(
-    padding: PaddingValues
+    padding: PaddingValues,
+    viewModel: GuideViewModel
 ) {
 
     // Static beginner-friendly guides (can be replaced with API later)
