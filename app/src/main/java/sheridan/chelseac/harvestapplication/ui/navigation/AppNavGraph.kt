@@ -3,7 +3,6 @@ package sheridan.chelseac.harvestapplication.ui.navigation
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,7 +21,6 @@ fun AppNavGraph() {
     val calendarViewModel = remember { CalendarViewModel() }
     val guideViewModel = remember { GuideViewModel() }
 
-
     Scaffold(
         bottomBar = {
             BottomNavBar(navController)
@@ -33,6 +31,13 @@ fun AppNavGraph() {
             navController = navController,
             startDestination = NavRoutes.GARDEN
         ) {
+
+            composable(NavRoutes.GARDEN) {
+                GardenScreen(
+                    padding = padding,
+                    viewModel = gardenViewModel
+                )
+            }
 
             composable(NavRoutes.PLANTS) {
                 PlantScreen(
@@ -51,14 +56,6 @@ fun AppNavGraph() {
                 )
             }
 
-
-            composable(NavRoutes.GARDEN) {
-                GardenScreen(
-                    padding = padding,
-                    viewModel = gardenViewModel
-                )
-            }
-
             composable(NavRoutes.CALENDAR) {
                 CalendarScreen(
                     padding = padding,
@@ -66,7 +63,7 @@ fun AppNavGraph() {
                 )
             }
 
-            composable(NavRoutes.GUIDE){
+            composable(NavRoutes.GUIDE) {
                 GuideScreen(
                     padding = padding,
                     viewModel = guideViewModel
