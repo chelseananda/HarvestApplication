@@ -5,20 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sheridan.chelseac.harvestapplication.data.local.dao.GardenDao
+import sheridan.chelseac.harvestapplication.data.local.dao.GardenEventDao
 import sheridan.chelseac.harvestapplication.data.local.dao.HarvestDao
 
 @Database(
     entities = [
         HarvestEntity::class,
-        GardenEntity::class
-               ],
-    version = 2,
+        GardenEntity::class,
+        GardenEventEntity::class   // 👈 ADD
+    ],
+    version = 3,
     exportSchema = false
 )
 abstract class HarvestDatabase : RoomDatabase() {
 
     abstract fun harvestDao(): HarvestDao
     abstract fun gardenDao(): GardenDao
+    abstract fun gardenEventDao(): GardenEventDao
 
 
     companion object {
