@@ -2,6 +2,7 @@ package sheridan.chelseac.harvestapplication.ui.navigation
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,7 +10,10 @@ import androidx.navigation.compose.rememberNavController
 import sheridan.chelseac.harvestapplication.ui.screens.*
 import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
+import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModelFactory
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GuideViewModel
+import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModel
+import sheridan.chelseac.harvestapplication.ui.viewmodel.HarvestViewModelFactory
 import sheridan.chelseac.harvestapplication.ui.viewmodel.PlantViewModel
 
 @Composable
@@ -19,7 +23,10 @@ fun AppNavGraph() {
 
     //Lifecycle-aware ViewModels
     val plantViewModel: PlantViewModel = viewModel()
-    val gardenViewModel: GardenViewModel = viewModel()
+    val gardenViewModel: GardenViewModel =
+        viewModel(factory = GardenViewModelFactory(LocalContext.current))
+    val harvestViewModel: HarvestViewModel =
+        viewModel(factory = HarvestViewModelFactory(LocalContext.current))
     val calendarViewModel: CalendarViewModel = viewModel()
     val guideViewModel: GuideViewModel = viewModel()
 

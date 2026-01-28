@@ -1,24 +1,52 @@
-// ui/viewmodel/GardenViewModel.kt
 package sheridan.chelseac.harvestapplication.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import sheridan.chelseac.harvestapplication.data.repository.GardenRepository
 import sheridan.chelseac.harvestapplication.ui.model.Garden
 
-class GardenViewModel : ViewModel() {
+class GardenViewModel(
+    private val repository: GardenRepository
+) : ViewModel() {
 
-    private val _gardens = MutableStateFlow<List<Garden>>(emptyList())
-    val gardens: StateFlow<List<Garden>> = _gardens
-
-    private var nextId = 1
+    // 🔄 DB → UI model mapping
+    val gardens: StateFlow<List<Garden>> =
+        repository.getAllGardens()
+            .map { entities ->
+                entities.map {
+                    Garden(
+                        id = it.id,
+                        name = it.name,
+                        type = it.type
+                    )
+                }
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = emptyList()
+            )
 
     fun addGarden(name: String, type: String) {
-        val garden = Garden(
-            id = nextId++,
-            name = name,
-            type = type
-        )
-        _gardens.value = _gardens.value + garden
+        viewModelScope.launch {
+            repository.addGarden(name, type)
+        }
+    }
+
+    fun deleteGarden(garden: Garden) {
+        viewModelScope.launch {
+            repository.deleteGarden(
+                garden = sheridan.chelseac.harvestapplication.data.local.entity.GardenEntity(
+                    id = garden.id,
+                    name = garden.name,
+                    type = garden.type
+                )
+            )
+        }
     }
 }

@@ -5,20 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import sheridan.chelseac.harvestapplication.di.DatabaseModule
 
-class HarvestViewModelFactory(
+class GardenViewModelFactory(
     private val context: Context
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HarvestViewModel::class.java)) {
-
+        if (modelClass.isAssignableFrom(GardenViewModel::class.java)) {
             val database = DatabaseModule.provideDatabase(context)
-            val repository = DatabaseModule.provideRepository(database)
-
-            @Suppress("UNCHECKED_CAST")
-            return HarvestViewModel(repository) as T
+            val repository = DatabaseModule.provideGardenRepository(database)
+            return GardenViewModel(repository) as T
         }
-
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

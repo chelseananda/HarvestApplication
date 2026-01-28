@@ -3,28 +3,30 @@ package sheridan.chelseac.harvestapplication.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import sheridan.chelseac.harvestapplication.data.local.dao.HarvestDao
 import sheridan.chelseac.harvestapplication.data.local.entity.HarvestEntity
+import sheridan.chelseac.harvestapplication.data.repository.HarvestRepository
 
 class HarvestViewModel(
-    private val dao: HarvestDao
+    private val repository: HarvestRepository
 ) : ViewModel() {
 
-    // Observe harvest list from Room
-    val harvests = dao.getAllHarvests()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = emptyList()
-        )
-    private var recentlyDeletedHarvest : HarvestEntity? = null
+    // 🌱 Observe harvest list from Room via Repository
+    val harvests: StateFlow<List<HarvestEntity>> =
+        repository.getAllHarvests()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = emptyList()
+            )
 
-    // Add new harvest
+    private var recentlyDeletedHarvest: HarvestEntity? = null
+
     fun addHarvest(name: String, quantity: Int, date: String) {
         viewModelScope.launch {
-            dao.insertHarvest(
+            repository.insertHarvest(
                 HarvestEntity(
                     name = name,
                     quantity = quantity,
@@ -37,14 +39,14 @@ class HarvestViewModel(
     fun deleteHarvest(harvest: HarvestEntity) {
         viewModelScope.launch {
             recentlyDeletedHarvest = harvest
-            dao.deleteHarvest(harvest)
+            repository.deleteHarvest(harvest)
         }
     }
 
-    fun undoDelete(){
-        recentlyDeletedHarvest?.let {
+    fun undoDelete() {
+        recentlyDeletedHarvest?.let { harvest ->
             viewModelScope.launch {
-                dao.insertHarvest(it)
+                repository.insertHarvest(harvest)
                 recentlyDeletedHarvest = null
             }
         }
