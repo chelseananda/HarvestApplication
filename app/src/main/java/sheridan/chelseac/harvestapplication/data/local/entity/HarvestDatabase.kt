@@ -31,7 +31,10 @@ abstract class HarvestDatabase : RoomDatabase() {
                     context.applicationContext,
                     HarvestDatabase::class.java,
                     "harvest_db"
-                ).build().also {
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+                    .also {
                     INSTANCE = it
                 }
             }
