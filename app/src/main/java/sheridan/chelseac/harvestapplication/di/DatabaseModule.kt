@@ -2,6 +2,7 @@ package sheridan.chelseac.harvestapplication.di
 
 import android.content.Context
 import sheridan.chelseac.harvestapplication.data.local.entity.HarvestDatabase
+import sheridan.chelseac.harvestapplication.data.repository.GardenRepository
 import sheridan.chelseac.harvestapplication.data.repository.HarvestRepository
 
 object DatabaseModule {
@@ -15,4 +16,9 @@ object DatabaseModule {
     fun provideRepository(database: HarvestDatabase): HarvestRepository {
         return HarvestRepository(database.harvestDao())
     }
+
+    fun provideGardenRepository(database: HarvestDatabase): GardenRepository {
+        return GardenRepository(database.gardenDao())
+    }
+
 }
