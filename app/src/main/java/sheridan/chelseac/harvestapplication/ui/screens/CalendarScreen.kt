@@ -1,25 +1,23 @@
 package sheridan.chelseac.harvestapplication.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import sheridan.chelseac.harvestapplication.ui.components.CalendarEventCard
-import sheridan.chelseac.harvestapplication.ui.dialogs.AddEventDialog
+import sheridan.chelseac.harvestapplication.ui.model.GardenEvent
 import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(
     padding: PaddingValues,
     viewModel: CalendarViewModel
 ) {
     val events by viewModel.events.collectAsState()
-    var showDialog by remember { mutableStateOf(false) }
-
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -27,79 +25,93 @@ fun CalendarScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { innerPadding ->
 
-        Box(
-            modifier = Modifier
-                .padding(padding)
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
+        if (events.isEmpty()) {
+            EmptyCalendarState(
+                modifier = Modifier
+                    .padding(padding)
+                    .padding(innerPadding)
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(padding)
+                    .padding(innerPadding)
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(events, key = { it.id }) { event ->
+                    CalendarEventItem(
+                        event = event,
+                        onDelete = {
+                            viewModel.deleteEvent(event)
 
-            if (events.isEmpty()) {
-                Text(
-                    text = "No calendar events yet",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    events.forEach { event ->
+                            scope.launch {
+                                val result = snackbarHostState.showSnackbar(
+                                    message = "Event deleted",
+                                    actionLabel = "Undo",
+                                    duration = SnackbarDuration.Short
+                                )
 
-                        val dismissState = rememberSwipeToDismissBoxState(
-                            confirmValueChange = { value ->
-                                if (value == SwipeToDismissBoxValue.EndToStart ||
-                                    value == SwipeToDismissBoxValue.StartToEnd
-                                ) {
-                                    viewModel.deleteEvent(event)
-
-                                    scope.launch {
-                                        val result = snackbarHostState.showSnackbar(
-                                            message = "Event deleted",
-                                            actionLabel = "UNDO"
-                                        )
-                                        if (result == SnackbarResult.ActionPerformed) {
-                                            viewModel.undoDelete()
-                                        }
-                                    }
-                                    true
-                                } else {
-                                    false
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    viewModel.undoDelete()
                                 }
                             }
-                        )
-
-                        SwipeToDismissBox(
-                            state = dismissState,
-                            backgroundContent = {},
-                            content = {
-                                CalendarEventCard(
-                                    event = event,
-                                    onDelete = { viewModel.deleteEvent(event) }
-                                )
-                            }
-                        )
-                    }
+                        }
+                    )
                 }
-            }
-
-            FloatingActionButton(
-                onClick = { showDialog = true },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-            ) {
-                Text("+")
             }
         }
     }
+}
 
-    if (showDialog) {
-        AddEventDialog(
-            onDismiss = { showDialog = false },
-            onAdd = { title, date, gardenName ->
-                viewModel.addEvent(title, date, gardenName)
+@Composable
+private fun CalendarEventItem(
+    event: GardenEvent,
+    onDelete: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    text = event.title,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = event.date,
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
+
+            TextButton(onClick = onDelete) {
+                Text("Delete")
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyCalendarState(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "No events yet.\nAdd one to get started 🌱",
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
+
+
