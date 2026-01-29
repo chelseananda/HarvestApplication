@@ -2,7 +2,6 @@
 package sheridan.chelseac.harvestapplication.ui.card
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,19 +9,21 @@ import androidx.compose.ui.unit.dp
 import sheridan.chelseac.harvestapplication.ui.model.Garden
 
 @Composable
-fun GardenCard(garden: Garden) {
+fun GardenCard(
+    garden: Garden,
+    modifier: Modifier = Modifier
+) {
     Card(
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .padding(vertical = 4.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(garden.name, style = MaterialTheme.typography.titleMedium)
-            Text(garden.type, style = MaterialTheme.typography.bodySmall)
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = garden.name,
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
+

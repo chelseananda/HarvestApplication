@@ -8,15 +8,15 @@ class GardenEventRepository(
     private val dao: GardenEventDao
 ) {
 
-    fun getAllEvents(): Flow<List<GardenEventEntity>> =
-        dao.getAllEvents()
+    fun getEventsForGarden(gardenId: Int): Flow<List<GardenEventEntity>> =
+        dao.getEventsForGarden(gardenId)
 
-    suspend fun addEvent(title: String, date: String, gardenName: String) {
+    suspend fun addEvent(title: String, date: String, gardenId: Int) {
         dao.insertEvent(
             GardenEventEntity(
                 title = title,
                 date = date,
-                gardenName = gardenName
+                gardenId = gardenId
             )
         )
     }

@@ -2,10 +2,7 @@ package sheridan.chelseac.harvestapplication.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import sheridan.chelseac.harvestapplication.data.local.entity.GardenEventEntity
 import sheridan.chelseac.harvestapplication.data.repository.GardenEventRepository
@@ -15,16 +12,21 @@ class CalendarViewModel(
     private val repository: GardenEventRepository
 ) : ViewModel() {
 
-    // Observe events from Room → UI model
+    private val selectedGardenId = MutableStateFlow<Int?>(null)
+
     val events: StateFlow<List<GardenEvent>> =
-        repository.getAllEvents()
+        selectedGardenId
+            .filterNotNull()
+            .flatMapLatest { gardenId ->
+                repository.getEventsForGarden(gardenId)
+            }
             .map { entities ->
                 entities.map {
                     GardenEvent(
                         id = it.id,
                         title = it.title,
                         date = it.date,
-                        gardenName = it.gardenName
+                        gardenId = it.gardenId
                     )
                 }
             }
@@ -36,9 +38,19 @@ class CalendarViewModel(
 
     private var recentlyDeletedEvent: GardenEvent? = null
 
-    fun addEvent(title: String, date: String, gardenName: String) {
+    fun selectGarden(gardenId: Int) {
+        selectedGardenId.value = gardenId
+    }
+
+    fun addEvent(title: String, date: String) {
+        val gardenId = selectedGardenId.value ?: return
+
         viewModelScope.launch {
-            repository.addEvent(title, date, gardenName)
+            repository.addEvent(
+                title = title,
+                date = date,
+                gardenId = gardenId
+            )
         }
     }
 
@@ -50,7 +62,7 @@ class CalendarViewModel(
                     id = event.id,
                     title = event.title,
                     date = event.date,
-                    gardenName = event.gardenName
+                    gardenId = event.gardenId
                 )
             )
         }
@@ -62,7 +74,7 @@ class CalendarViewModel(
                 repository.addEvent(
                     title = event.title,
                     date = event.date,
-                    gardenName = event.gardenName
+                    gardenId = event.gardenId
                 )
                 recentlyDeletedEvent = null
             }
