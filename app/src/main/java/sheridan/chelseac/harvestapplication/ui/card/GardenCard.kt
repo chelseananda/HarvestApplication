@@ -19,10 +19,8 @@ fun GardenCard(
             .padding(vertical = 4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = garden.name,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Text(text = garden.name, style = MaterialTheme.typography.titleMedium)
+            Text(text = "Plants: ${garden.plantCount}")
         }
     }
 }

@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class GardenEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val name: String,
-    val type: String
+    val name: String
 )

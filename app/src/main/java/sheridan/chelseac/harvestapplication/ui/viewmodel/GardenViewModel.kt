@@ -14,15 +14,14 @@ class GardenViewModel(
     private val repository: GardenRepository
 ) : ViewModel() {
 
-    // 🔄 DB → UI model mapping
     val gardens: StateFlow<List<Garden>> =
-        repository.getAllGardens()
-            .map { entities ->
-                entities.map {
+        repository.getGardensWithPlants()
+            .map { relations ->
+                relations.map { relation ->
                     Garden(
-                        id = it.id,
-                        name = it.name,
-                        type = it.type
+                        id = relation.garden.id,
+                        name = relation.garden.name,
+                        plantCount = relation.plants.size
                     )
                 }
             }
@@ -32,21 +31,15 @@ class GardenViewModel(
                 initialValue = emptyList()
             )
 
-    fun addGarden(name: String, type: String) {
+    fun addGarden(name: String) {
         viewModelScope.launch {
-            repository.addGarden(name, type)
+            repository.addGarden(name)
         }
     }
 
-    fun deleteGarden(garden: Garden) {
+    fun deleteGarden(gardenId: Int) {
         viewModelScope.launch {
-            repository.deleteGarden(
-                garden = sheridan.chelseac.harvestapplication.data.local.entity.GardenEntity(
-                    id = garden.id,
-                    name = garden.name,
-                    type = garden.type
-                )
-            )
+            repository.deleteGarden(gardenId)
         }
     }
 }
