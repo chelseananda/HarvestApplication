@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import sheridan.chelseac.harvestapplication.ui.screens.*
 import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModel
+import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModelFactory
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModel
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GardenViewModelFactory
 import sheridan.chelseac.harvestapplication.ui.viewmodel.GuideViewModel
@@ -27,7 +28,8 @@ fun AppNavGraph() {
         viewModel(factory = GardenViewModelFactory(LocalContext.current))
     val harvestViewModel: HarvestViewModel =
         viewModel(factory = HarvestViewModelFactory(LocalContext.current))
-    val calendarViewModel: CalendarViewModel = viewModel()
+    val calendarViewModel: CalendarViewModel =
+        viewModel(factory = CalendarViewModelFactory(LocalContext.current))
     val guideViewModel: GuideViewModel = viewModel()
 
     Scaffold(
