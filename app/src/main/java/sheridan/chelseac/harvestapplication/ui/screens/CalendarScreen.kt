@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import sheridan.chelseac.harvestapplication.ui.dialog.AddEventDialog
 import sheridan.chelseac.harvestapplication.ui.model.GardenEvent
 import sheridan.chelseac.harvestapplication.ui.viewmodel.CalendarViewModel
 
@@ -20,9 +21,17 @@ fun CalendarScreen(
     val events by viewModel.events.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    var showAddDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { showAddDialog = true }
+            ) {
+                Text("+")
+            }
+        }
     ) { innerPadding ->
 
         if (events.isEmpty()) {
@@ -40,7 +49,10 @@ fun CalendarScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(events, key = { it.id }) { event ->
+                items(
+                    items = events,
+                    key = { it.id }
+                ) { event ->
                     CalendarEventItem(
                         event = event,
                         onDelete = {
@@ -62,6 +74,15 @@ fun CalendarScreen(
                 }
             }
         }
+
+        if (showAddDialog) {
+            AddEventDialog(
+                onDismiss = { showAddDialog = false },
+                onAddEvent = { title, date ->
+                    viewModel.addEvent(title, date)
+                }
+            )
+        }
     }
 }
 
@@ -78,7 +99,8 @@ private fun CalendarEventItem(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
                 Text(
@@ -113,5 +135,3 @@ private fun EmptyCalendarState(
         )
     }
 }
-
-
