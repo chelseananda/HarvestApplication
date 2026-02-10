@@ -1,7 +1,6 @@
-package sheridan.chelseac.harvestapplication.ui.components
+package sheridan.chelseac.harvestapplication.ui.card
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,30 +13,35 @@ fun CalendarEventCard(
     onDelete: () -> Unit
 ) {
     Card(
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = event.title,
+                    style = MaterialTheme.typography.titleMedium
+                )
 
-            Text(
-                text = event.title,
-                style = MaterialTheme.typography.titleMedium
-            )
+                Text(
+                    text = event.date,
+                    style = MaterialTheme.typography.bodyMedium
+                )
 
-            Text(
-                text = event.gardenName,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = event.date,
-                style = MaterialTheme.typography.bodySmall
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
+                // TEMP (entity-stage friendly)
+                Text(
+                    text = "Garden ID: ${event.gardenId}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
 
             TextButton(onClick = onDelete) {
                 Text("Delete")

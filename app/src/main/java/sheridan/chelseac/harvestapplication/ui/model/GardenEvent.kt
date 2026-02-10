@@ -10,5 +10,5 @@ data class GardenEvent(
     val id: Int = 0,
     val title: String,
     val date: String,
-    val gardenName: String // Add this line
+    val gardenId: Int
 )
