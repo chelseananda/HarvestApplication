@@ -1,82 +1,62 @@
-# 📱 Harvest Android Application
+🌱 Harvest Application
 
-Harvest is a Kotlin-based Android productivity application designed to help users add, organize, and track daily tasks efficiently. The app focuses on simplicity, offline support, and a clean user experience to improve personal task and time management.
+Harvest is an offline-first Android application built with Jetpack Compose that helps users manage gardens, plants, and gardening tasks through a clean and modern interface.
 
----
+The project follows MVVM architecture and demonstrates best practices for state management, persistence, and UI composition in modern Android development.
 
-## 🚀 Overview
+✨ Features
 
-Harvest enables users to manage their daily tasks by creating, categorizing, and tracking them with ease. Built using modern Android development practices, the application emphasizes intuitive design, smooth navigation, and reliable local data storage.
+🌿 Create and manage gardens
 
----
+🪴 Track plants per garden
 
-## ✨ Features
+📅 Add and manage calendar events for gardening tasks
 
-- Add, edit, and delete daily tasks  
-- Organize tasks into categories  
-- Set reminders for important activities  
-- Persistent local storage for offline access  
-- Clean and minimal UI for distraction-free productivity  
+🗑 Delete events with undo support
 
----
+💾 Offline persistence using Room
 
-## 🛠️ Tech Stack
+⚡ Reactive UI updates with StateFlow
 
-| Category | Technology |
-|--------|------------|
-| Language | Kotlin |
-| Platform | Android |
-| UI | XML |
-| Architecture | Android SDK |
-| Build Tool | Gradle |
-| Version Control | Git & GitHub |
+🧠 Architecture
 
----
+The app follows MVVM (Model–View–ViewModel) architecture:
 
-## 📂 Project Structure
+UI (Jetpack Compose)
+        ↓
+ViewModel (StateFlow)
+        ↓
+Repository
+        ↓
+Room (DAO + Entities)
 
-HarvestApplication/
-┣ 📂 app/
-┃ ┣ 📂 src/
-┃ ┃ ┣ 📂 main/
-┃ ┃ ┃ ┣ 📂 java/ # Kotlin source files
-┃ ┃ ┃ ┣ 📂 res/ # Layouts, drawables, values
-┃ ┃ ┃ ┣ AndroidManifest.xml
-┃ ┣ 📂 test/ # Unit tests
-┃ ┣ 📂 androidTest/ # Instrumented tests
 
-## ▶️ Getting Started
+ViewModels expose UI state using StateFlow
 
-### Prerequisites
-- Android Studio (recommended: Arctic Fox or newer)
-- Android device or emulator
+Repositories abstract database access
 
-### Installation
-bash
-git clone https://github.com/chelseananda/HarvestApplication.git
-cd HarvestApplication
-Open the project in Android Studio
+Room handles persistence and relations between entities
 
-Sync Gradle files
+🗄️ Data Modelling
 
-Run the app on an emulator or physical device
+GardenEntity → Parent entity
 
-🎨 UI / Design
-The application follows a clean and minimal design approach to reduce friction and improve usability.
-User flows were analyzed to ensure intuitive navigation and smooth task management.
+PlantEntity → Linked to Garden via foreign key
 
-🔗 Figma Prototype:
-https://www.figma.com/proto/3HuXmpIRK8wCPad5AjRus8/Harvest-Start
+GardenEventEntity → Linked to Garden via foreign key
 
-🔮 Future Enhancements
-Add analytics for task completion trends
+Room Relations are used to derive aggregate data, such as plant count per garden
 
-Implement cloud sync for multi-device access
+🛠️ Tech Stack
 
-Introduce dark mode support
+Kotlin
 
-Add notification customization
+Jetpack Compose
 
-📄 License
-This project is for educational and portfolio purposes.
+Room Database
 
+StateFlow & Coroutines
+
+Material 3
+
+MVVM Architecture
