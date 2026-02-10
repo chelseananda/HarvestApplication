@@ -16,7 +16,7 @@ import sheridan.chelseac.harvestapplication.data.local.dao.PlantDao
         GardenEventEntity::class,
         PlantEntity::class
     ],
-    version = 4, // ⬅️ bumped version (REQUIRED)
+    version = 4,
     exportSchema = false
 )
 abstract class HarvestDatabase : RoomDatabase() {
