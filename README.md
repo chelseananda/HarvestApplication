@@ -60,3 +60,6 @@ StateFlow & Coroutines
 Material 3
 
 MVVM Architecture
+
+🔗 Figma Prototype:
+https://www.figma.com/proto/3HuXmpIRK8wCPad5AjRus8/Harvest-Start
