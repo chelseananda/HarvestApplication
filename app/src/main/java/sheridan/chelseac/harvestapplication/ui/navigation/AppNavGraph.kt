@@ -43,10 +43,12 @@ fun AppNavGraph() {
             startDestination = NavRoutes.GARDEN
         ) {
 
-            composable(NavRoutes.GARDEN) {
+            composable(route = NavRoutes.GARDEN) {
                 GardenScreen(
                     padding = padding,
-                    viewModel = gardenViewModel
+                    navController = navController,
+                    gardenViewModel = gardenViewModel,
+                    calendarViewModel = calendarViewModel
                 )
             }
 

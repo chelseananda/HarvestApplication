@@ -12,7 +12,8 @@ import sheridan.chelseac.harvestapplication.data.local.dao.HarvestDao
     entities = [
         HarvestEntity::class,
         GardenEntity::class,
-        GardenEventEntity::class   // 👈 ADD
+        GardenEventEntity::class,
+        PlantEntity::class
     ],
     version = 3,
     exportSchema = false
